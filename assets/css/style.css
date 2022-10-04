@@ -1,0 +1,76 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+*,
+*::after,
+*::before {
+    padding: 0;
+    margin: 0;
+
+    box-sizing: border-box;
+
+    font-family: 'Roboto', sans-serif;
+    color: var(--text);
+}
+
+:root {
+    --primary: #eee;
+    --secondary: #e2e2e2;
+    --ascent: linear-gradient(90deg, rgba(255,255,0,1) 0%, rgba(255,255,0,1) 33%, rgba(255,0,255,1) 66%, rgba(255,0,255,1) 100%); /* rgb(187, 45, 243) */
+    --text: #222;
+}
+
+body {
+    display: flex;
+    justify-content: flex-end;
+    background-image: url("../img/alfons-morales-YLSwjSy7stw-unsplash.jpg");
+    background-size: cover;
+    height: 100vh;
+}
+
+.con {
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--primary);
+    width: 50vw;
+}
+
+.con div{
+    width: 40%;
+}
+
+form {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+}
+
+input {
+    background-color: var(--secondary);
+    width: 100%;
+    padding: 17px;
+    margin: 3px;
+    border: none;
+    border-radius: 7px;
+}
+
+input[type=submit] {
+    color: #eee;
+    letter-spacing: 5px;
+    font-size: 21px;
+    font-weight: 700;
+}
+
+input[type=submit]::before {
+    content: '';
+    position: absolute;
+    background: var(--ascent);
+    width: 100vw;
+    height: 100vh;
+}
+
+form p {
+    font-size: 13px;
+    margin: 3px;
+}
