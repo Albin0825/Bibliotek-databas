@@ -7,6 +7,7 @@
     }else{
         $sql = "SELECT * FROM media";
     }
+    $result = $conn->query($sql);
     $filter = [];
 
     if(!empty($_POST["Book"])){
@@ -22,8 +23,17 @@
         array_push($filter,"Movie");
     }
 
-    $result = $conn->query($sql);
+    $sql = "SELECT * FROM borrow";
 
+    $resultborrow = $conn->query($sql);
+
+    $borrowed = [];
+    if ($resultborrow->num_rows > 0) {
+        // output data of each row
+        while($row = $resultborrow->fetch_assoc()) {
+            array_push($borrowed,$row);
+        }
+    }
 
 ?>
 
@@ -59,22 +69,31 @@
                     foreach($filter as $type){
                         if ($type == $row["type"]){
                             if($row["type"] == "Book" || $row["type"] == "Refrense Book"){
-                                echo $row["title"] . " | " . $row["type"]. " | " . $row["ageRestriction"]. "+ | ".$row["length"] ." Pages<br>";
+                                echo "<form method='POST'>".$row["title"] . " | " . $row["type"]. " | " . $row["ageRestriction"]. "+ | ".$row["length"] ." Pages ";
                             } else{
-                                echo $row["title"] . " | " . $row["type"]. " | " . $row["ageRestriction"]. "+ | ".$row["length"] ." Minutes<br>";
+                                echo "<form method='POST'>".$row["title"] . " | " . $row["type"]. " | " . $row["ageRestriction"]. "+ | ".$row["length"] ." Minutes ";
                             }
                         }
                     }
                 } else{
                         if($row["type"] == "Book" || $row["type"] == "Refrense Book"){
-                            echo $row["title"] . " | " . $row["type"]. " | " . $row["ageRestriction"]. "+ | ".$row["length"] ." Pages<br>";
+                            echo "<form method='POST'>".$row["title"] . " | " . $row["type"]. " | " . $row["ageRestriction"]. "+ | ".$row["length"] ." Pages ";
                         } else{
-                            echo $row["title"] . " | " . $row["type"]. " | " . $row["ageRestriction"]. "+ | ".$row["length"] ." Minutes<br>";
+                            echo "<form method='POST'>".$row["title"] . " | " . $row["type"]. " | " . $row["ageRestriction"]. "+ | ".$row["length"] ." Minutes ";
                         }
                     }
+                $temp = 0;
+                foreach($borrowed as $b){
+                    if($b['mID'] == $row["ID"]){
+                        echo"<input type='submit' value='Reserve'/></form> <br>";
+                        $temp = 1;
+                    }    
                 }
-
+                if($temp == 0){
+                    echo"<input type='submit' value='Borrow'/></form> <br>";
+                }
             }
+        }
         ?>
     </div>
 </body>
