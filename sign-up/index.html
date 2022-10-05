@@ -11,12 +11,13 @@
     <div class="con">
         <div>
             <h1>Sign up</h1>
-            <form action="sign-up.php" method="post">
-                <input id="" type="text" name="name" placeholder="Name">
-                <input id="" type="password" name="password" placeholder="Password">
-                <input id="" type="password" name="cPassword" placeholder="Confirm Password">
-                <input type="date" name="dob" placeholder="YYYY">
-                <input id="" type="text" name="adress" placeholder="Adress">
+            <form action="../login-signUp.php" method="post">
+                <input type="hidden" name="sign-up">
+                <input id="" type="text" name="name" placeholder="Name" required>
+                <input id="" type="password" name="password" placeholder="Password" required>
+                <input id="" type="password" name="cPassword" placeholder="Confirm Password" required>
+                <input type="date" name="dob" placeholder="YYYY" required>
+                <input id="" type="text" name="adress" placeholder="Adress" required>
                 <input type="submit" value="Sign up">
                 <a href="../">or, login</a>
             </form>
