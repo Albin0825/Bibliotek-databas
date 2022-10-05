@@ -57,7 +57,7 @@ input {
 
 input[type=submit] {
     background: var(--ascent);
-    background-size: 300% 100%;
+    background-size: 300%;
     color: #222;
     letter-spacing: 5px;
     font-size: 21px;
