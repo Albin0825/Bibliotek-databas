@@ -19,7 +19,8 @@
     --text: #222;
 }
 
-body {
+body.login,
+body.signup {
     display: flex;
     justify-content: flex-end;
     background-image: url("../img/alfons-morales-YLSwjSy7stw-unsplash.jpg");
@@ -55,9 +56,10 @@ input {
     border-radius: 7px;
 }
 
-input[type=submit] {
+.login input[type=submit],
+.signup input[type=submit] {
     background: var(--ascent);
-    background-size: 300% 100%;
+    background-size: 300%;
     color: #222;
     letter-spacing: 5px;
     font-size: 21px;
@@ -65,12 +67,14 @@ input[type=submit] {
     transition: background-position 0.4s ease-in-out;
 }
 
-input[type=submit]:hover {
+.login input[type=submit]:hover,
+.signup input[type=submit]:hover {
     background-position: right;
     color: #eee;
 }
 
-form p {
+.login a,
+.signup a {
     font-size: 13px;
     margin: 3px;
 }
