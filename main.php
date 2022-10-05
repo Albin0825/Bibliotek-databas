@@ -35,6 +35,12 @@
         }
     }
 
+    if (!empty($_POST['media'])){
+        $media = $_POST['media'];
+        $sql = "INSERT INTO borrow (mID, uID, bDate, rDate) VALUE ($media, 1, date('y-m-d'), 2022-12-04)";
+        echo $sql;
+    }
+
 ?>
 
 <!DOCTYPE html>
@@ -46,7 +52,6 @@
     <title>Document</title>
 </head>
 <body>
-
     <div>
         <form id="searchf" method="POST" style="display:flex">
             <input type="text" name="search" autofocus/>
@@ -65,21 +70,22 @@
         if ($result->num_rows > 0) {
             // output data of each row
             while($row = $result->fetch_assoc()) {
+                $mID = $row['ID'];
                 if(!empty($filter)){
                     foreach($filter as $type){
                         if ($type == $row["type"]){
                             if($row["type"] == "Book" || $row["type"] == "Refrense Book"){
-                                echo "<form method='POST'>".$row["title"] . " | " . $row["type"]. " | " . $row["ageRestriction"]. "+ | ".$row["length"] ." Pages ";
+                                echo "<form method='POST'>".$row["title"] . " | " . $row["type"]. " | " . $row["ageRestriction"]. "+ | ".$row["length"]." Pages <input type='hidden' name='media' value='.$mID.'/>";
                             } else{
-                                echo "<form method='POST'>".$row["title"] . " | " . $row["type"]. " | " . $row["ageRestriction"]. "+ | ".$row["length"] ." Minutes ";
+                                echo "<form method='POST'>".$row["title"] . " | " . $row["type"]. " | " . $row["ageRestriction"]. "+ | ".$row["length"] ." Minutes <input type='hidden' name='media' value='.$mID.'/>";
                             }
                         }
                     }
                 } else{
                         if($row["type"] == "Book" || $row["type"] == "Refrense Book"){
-                            echo "<form method='POST'>".$row["title"] . " | " . $row["type"]. " | " . $row["ageRestriction"]. "+ | ".$row["length"] ." Pages ";
+                            echo "<form method='POST'>".$row["title"] . " | " . $row["type"]. " | " . $row["ageRestriction"]. "+ | ".$row["length"] ." Pages <input type='hidden' name='media' value='.$mID.'/>";
                         } else{
-                            echo "<form method='POST'>".$row["title"] . " | " . $row["type"]. " | " . $row["ageRestriction"]. "+ | ".$row["length"] ." Minutes ";
+                            echo "<form method='POST'>".$row["title"] . " | " . $row["type"]. " | " . $row["ageRestriction"]. "+ | ".$row["length"] ." Minutes <input type='hidden' name='media' value='.$mID.'/>";
                         }
                     }
                 $temp = 0;
