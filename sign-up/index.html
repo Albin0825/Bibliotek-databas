@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sv">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,17 +9,43 @@
 </head>
 <body class="signup">
     <div class="con">
-        <div>
+        <div class="bg">
+            <div class="row row1">
+                <img src="../assets/img/skövde.png" alt="">
+                <img src="../assets/img/skövde.png" alt="">
+                <img src="../assets/img/skövde.png" alt="">
+                <img src="../assets/img/skövde.png" alt="">
+            </div>
+            <div class="row row2">
+                <img src="../assets/img/skövde.png" alt="">
+                <img src="../assets/img/skövde.png" alt="">
+                <img src="../assets/img/skövde.png" alt="">
+                <img src="../assets/img/skövde.png" alt="">
+            </div>
+            <div class="row row3">
+                <img src="../assets/img/skövde.png" alt="">
+                <img src="../assets/img/skövde.png" alt="">
+                <img src="../assets/img/skövde.png" alt="">
+                <img src="assets/img/skövde.png" alt="">
+            </div>
+            <div class="row row4">
+                <img src="../assets/img/skövde.png" alt="">
+                <img src="../assets/img/skövde.png" alt="">
+                <img src="../assets/img/skövde.png" alt="">
+                <img src="../assets/img/skövde.png" alt="">
+            </div>
+        </div>
+        <div class="signup">
             <h1>Sign up</h1>
             <form action="../login-signUp.php" method="post">
                 <input type="hidden" name="sign-up">
                 <input id="" type="text" name="name" placeholder="Name" required>
                 <input id="" type="password" name="password" placeholder="Password" required>
                 <input id="" type="password" name="cPassword" placeholder="Confirm Password" required>
-                <input type="date" name="dob" placeholder="YYYY" required>
+                <input type="text" name="dob" placeholder="YYYY/MM/DD" onfocus="(this.type = 'date')" required>
                 <input id="" type="text" name="adress" placeholder="Adress" required>
                 <input type="submit" value="Sign up">
-                <a href="../">or, login</a>
+                <a href="../">Or Login</a>
             </form>
         </div>
     </div>
