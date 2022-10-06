@@ -1,10 +1,14 @@
 <?php
+    session_start();
     require "db.php";
+    $uID = $_SESSION["uID"];
+    print_r($_SESSION);
 
     $date = date('y-m-d');
     if (!empty($_POST['media'])){
         $media = $_POST['media'];
-        $sql = "INSERT INTO borrow (mID, uID, bDate, rDate) VALUE ($media, 1, 20$date, 2022-12-04)";
+        $sql = "INSERT INTO borrow (mID, uID, bDate, rDate) VALUE ($media, $uID, '20$date', '2022-12-04')";
+        echo $sql;
         $conn->query($sql);
     }
 
@@ -77,17 +81,17 @@
                     foreach($filter as $type){
                         if ($type == $row["type"]){
                             if($row["type"] == "Book" || $row["type"] == "Refrense Book"){
-                                echo "<form method='POST'>".$row["title"] . " | " . $row["type"]. " | " . $row["ageRestriction"]. "+ | ".$row["length"]." Pages <input type='hidden' name='media' value='$mID'/>";
+                                echo "<form method='POST'>".$row["title"] . " | " . $row["type"]. " | " . $row["ageRestriction"]. "+ | ".$row["length"]." Pages ";
                             } else{
-                                echo "<form method='POST'>".$row["title"] . " | " . $row["type"]. " | " . $row["ageRestriction"]. "+ | ".$row["length"] ." Minutes <input type='hidden' name='media' value='$mID'/>";
+                                echo "<form method='POST'>".$row["title"] . " | " . $row["type"]. " | " . $row["ageRestriction"]. "+ | ".$row["length"] ." Minutes ";
                             }
                         }
                     }
                 } else{
                         if($row["type"] == "Book" || $row["type"] == "Refrense Book"){
-                            echo "<form method='POST'>".$row["title"] . " | " . $row["type"]. " | " . $row["ageRestriction"]. "+ | ".$row["length"] ." Pages <input type='hidden' name='media' value='$mID'/>";
+                            echo "<form method='POST'>".$row["title"] . " | " . $row["type"]. " | " . $row["ageRestriction"]. "+ | ".$row["length"] ." Pages ";
                         } else{
-                            echo "<form method='POST'>".$row["title"] . " | " . $row["type"]. " | " . $row["ageRestriction"]. "+ | ".$row["length"] ." Minutes <input type='hidden' name='media' value='$mID'/>";
+                            echo "<form method='POST'>".$row["title"] . " | " . $row["type"]. " | " . $row["ageRestriction"]. "+ | ".$row["length"] ." Minutes ";
                         }
                     }
                 $temp = 0;
@@ -98,7 +102,7 @@
                     }    
                 }
                 if($temp == 0){
-                    echo"<input type='submit' value='Borrow'/></form> <br>";
+                    echo"<input type='hidden' name='media' value='$mID'/> <input type='submit' value='Borrow'/></form> <br>";
                 }
             }
         }
