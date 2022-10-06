@@ -2,13 +2,11 @@
     session_start();
     require "db.php";
     $uID = $_SESSION["uID"];
-    print_r($_SESSION);
 
     $date = date('y-m-d');
     if (!empty($_POST['media'])){
         $media = $_POST['media'];
         $sql = "INSERT INTO borrow (mID, uID, bDate, rDate) VALUE ($media, $uID, '20$date', '2022-12-04')";
-        echo $sql;
         $conn->query($sql);
     }
 

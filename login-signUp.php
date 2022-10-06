@@ -1,5 +1,5 @@
 <?php
-
+    session_start();
     require "db.php";
 
     if (isset($_POST['login'])) {
@@ -13,11 +13,17 @@
             if ($result->num_rows > 0) {
                 // output data of each row
                 while($row = $result->fetch_assoc()) {
+                    $_SESSION["uID"] = $row["id"];
                     if($row["id"] == 0) {
                         echo "hej hej"; // admin
                     }
                     else {
                         echo "ID: " . $row["id"] . " | Name: " . $row["name"]. " | Password:" . $row["password"]. "<br>"; // normal user
+                        ?>
+                        <script>
+                            location.replace("main.php")
+                        </script>
+                    <?php
                     }
                 }
             }
