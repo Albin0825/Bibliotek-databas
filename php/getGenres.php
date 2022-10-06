@@ -1,7 +1,7 @@
 <?php
 require_once('../db.php');
 
-$sql = "SELECT * FROM media";
+$sql = "SELECT * FROM genres";
 
 $mediaList = [];
 
