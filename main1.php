@@ -53,54 +53,117 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./assets/css/style.css">
     <title>Document</title>
 </head>
 <body>
     <div>
-        <form id="searchf" method="POST" style="display:flex">
-            <input type="text" name="search" autofocus/>
-            <p> | Book</p>
-            <input type="checkbox" name="Book" checked></input>
-            <p> | Audio Book</p>
-            <input type="checkbox" name="AudioBook" checked></input>
-            <p> | Refrense Book</p>
-            <input type="checkbox" name="RefrenseBook" checked></input>
-            <p> | Moive</p>
-            <input type="checkbox" name="Movie" checked></input>
-            <input type="submit" value="Search"></input>
+        <form id="search" method="POST">
+            <div class="search">
+                <input type="text" name="search" placeholder="Search">
+                <input type="submit" value="🔍"></input>
+            </div>
+            <div class="filter">
+                <div class="img"><!-- sövde logo --></div>
+                <div>
+                    Book
+                    <input type="checkbox" name="Book" checked></input>
+                    Audio Book
+                    <input type="checkbox" name="AudioBook" checked></input>
+                    Refrense Book
+                    <input type="checkbox" name="RefrenseBook" checked></input>
+                    Moive
+                    <input type="checkbox" name="Movie" checked></input>
+                </div>
+                <input type="submit" value="Search"></input>
+            </div>
         </form>
+    </div>
+    <div class="con">
         <?php
 
         if ($result->num_rows > 0) {
             // output data of each row
             while($row = $result->fetch_assoc()) {
                 $mID = $row['ID'];
-                if(!empty($filter)){ //ifall det finns ett filter
+                if(!empty($filter)){
                     foreach($filter as $type){
                         if ($type == $row["type"]){
                             if($row["type"] == "Book" || $row["type"] == "Refrense Book"){
-                                echo `<form method="POST"><img src="./assets/img/{$row['type']}.svg" alt="">` . $row["title"] . " | " . $row["ageRestriction"]. "+ | ".$row["length"]." Pages";
+                                echo "
+                                    <form method='POST'>
+                                        <img src='./assets/img/".$row['type'].".svg' alt=''>
+                                        <div class='text'>" . $row["title"] . "<br> 
+                                            <div class='text age-length'>" .
+                                                $row["ageRestriction"] . "+
+                                                <span class='length'>" . $row["length"] . "PP</span>
+                                            </div>
+                                            <div class='text condition-isbn'>
+                                                <span class='acssent'>➤</span> ISBN: " . $row["ISBN"] . "
+                                                <br>
+                                                <span class='acssent'>➤</span> Condition: " . $row["quality"]+1 . "/10
+                                            </div>
+                                        </div>";
                             } else{
-                                echo "<form method='POST'>".$row["title"] . " | " . $row["type"]. " | " . $row["ageRestriction"]. "+ | ".$row["length"] ." Minutes ";
+                                echo "
+                                    <form method='POST'>
+                                        <img src='./assets/img/".$row['type'].".svg' alt=''>
+                                        <div class='text'>" . $row["title"] . "<br> 
+                                            <div class='text age-length'>" .
+                                                $row["ageRestriction"] . "+
+                                                <span class='length'>" . $row["length"] . "Min</span>
+                                            </div>
+                                            <div class='text condition-isbn'>
+                                                <span class='acssent'>➤</span> ISBN: " . $row["ISBN"] . "
+                                                <br>
+                                                <span class='acssent'>➤</span> Condition: " . $row["quality"]+1 . "/10
+                                            </div>
+                                        </div>";
                             }
                         }
                     }
                 } else{
                         if($row["type"] == "Book" || $row["type"] == "Refrense Book"){
-                            echo "<form method='POST'>".$row["title"] . " | " . $row["type"]. " | " . $row["ageRestriction"]. "+ | ".$row["length"] ." Pages ";
+                            echo "
+                                <form method='POST'>
+                                    <img src='./assets/img/".$row['type'].".svg' alt=''>
+                                    <div class='text'>" . $row["title"] . "<br> 
+                                        <div class='text age-length'>" .
+                                            $row["ageRestriction"] . "+
+                                            <span class='length'>" . $row["length"] . "PP</span>
+                                        </div>
+                                        <div class='text condition-isbn'>
+                                            ISBN: " . $row["ISBN"] . "
+                                            <br>
+                                            Condition: " . $row["quality"]+1 . "/10
+                                        </div>
+                                    </div>";
                         } else{
-                            echo "<form method='POST'>".$row["title"] . " | " . $row["type"]. " | " . $row["ageRestriction"]. "+ | ".$row["length"] ." Minutes ";
+                            echo "
+                                <form method='POST'>
+                                    <img src='./assets/img/".$row['type'].".svg' alt=''>
+                                    <div class='text'>" . $row["title"] . "<br> 
+                                        <div class='text age-length'>" .
+                                            $row["ageRestriction"] . "+
+                                            <span class='length'>" . $row["length"] . "Min</span>
+                                        </div>
+                                        <div class='text condition-isbn'>
+                                            ISBN: " . $row["ISBN"] . "
+                                            <br>
+                                            Condition: " . $row["quality"]+1 . "/10
+                                        </div>
+                                    </div>";
                         }
                     }
                 $temp = 0;
                 foreach($borrowed as $b){
                     if($b['mID'] == $row["ID"]){
-                        echo"<input type='submit' value='Reserve'/></form> <br>";
+                        echo"<input type='submit' value='Reserve'/></form>";
                         $temp = 1;
                     }    
                 }
                 if($temp == 0){
-                    echo"<input type='hidden' name='media' value='$mID'/> <input type='submit' value='Borrow'/></form> <br>";
+                    echo"<input type='hidden' name='media' value='$mID'/> <input type='submit' value='Borrow'/></form>";
                 }
             }
         }
