@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
+    <!-- Navigering -->
     <div>
         <a href = "admin.php"><button>Start</button></a>
         <a href = "admin-media.php"><button>Media</button></a>

@@ -12,10 +12,14 @@ require_once('../php/getOverview.php');
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
+    <!-- Navigering -->
     <div>
         <a href = "admin-media.php"><button>Media</button></a>
         <a href = "admin-users.php"><button>Användare</button></a>
     </div>
+
+    <!-- Adminöversikt -->
     <?php
     echo "<p>Totala mediaobjekt: " . $stats['mediaCount'] . "<br>";
     echo "Antal utlånade: " . $stats['borrowCount'] . "</p>";
