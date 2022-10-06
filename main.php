@@ -2,25 +2,73 @@
     session_start();
     require "db.php";
     $uID = $_SESSION["uID"];
-
+    $filter = [];
+/*-----------------------------------------------------------
+            Borrow
+-----------------------------------------------------------*/
     $date = date('y-m-d');
     if (!empty($_POST['media'])){
         $media = $_POST['media'];
         $sql = "INSERT INTO borrow (mID, uID, bDate, rDate) VALUE ($media, $uID, '20$date', '2022-12-04')";
         $conn->query($sql);
+        array_push($filter,"Book");
+        array_push($filter,"Audio Book");
+        array_push($filter,"Refrense Book");
+        array_push($filter,"Movie");
     }
+/*-----------------------------------------------------------
+            Search
+-----------------------------------------------------------*/
 
     if (!empty($_POST["search"])){
         $search = $_POST["search"];
-        $sql = "SELECT * FROM media WHERE media.title LIKE '%$search%'";
+        if(is_numeric($search)){
+            $sql = "SELECT * FROM media WHERE media.ISBN LIKE '$search'";
+        }else{
+            $sql = "SELECT * FROM media WHERE media.title LIKE '%$search%'";
+        }
+        
     }else{
         $sql = "SELECT * FROM media";
     }
     $result = $conn->query($sql);
-    $filter = [];
+/*-----------------------------------------------------------
+            Return
+-----------------------------------------------------------*/
+    if (!empty($_POST["return"])){
+        $return = $_POST["return"];
+        $sql = "DELETE FROM borrow WHERE borrow.mID = ".$return;
+        $retrunRet = $conn->query($sql);
+        array_push($filter,"Book");
+        array_push($filter,"Audio Book");
+        array_push($filter,"Refrense Book");
+        array_push($filter,"Movie");
+    }
+/*-----------------------------------------------------------
+            Reserve
+-----------------------------------------------------------*/
+    if (!empty($_POST['reserve'])){
+        $reserve = $_POST['reserve'];
+        $sql = "SELECT * FROM queue";
+        $reserveRes = $conn->query($sql); 
+        array_push($filter,"Book");
+        array_push($filter,"Audio Book");
+        array_push($filter,"Refrense Book");
+        array_push($filter,"Movie");
+    }
 
+/*-----------------------------------------------------------
+            Filter
+-----------------------------------------------------------*/
+    
+    if($_POST == NULL){
+        array_push($filter,"Book");
+        array_push($filter,"Audio Book");
+        array_push($filter,"Refrense Book");
+        array_push($filter,"Movie");
+    }
     if(!empty($_POST["Book"])){
-        array_push($filter,"Book");    
+        array_push($filter,"Book");
     }
     if(!empty($_POST["AudioBook"])){
         array_push($filter,"Audio Book");
@@ -31,7 +79,9 @@
     if(!empty($_POST["Movie"])){
         array_push($filter,"Movie");
     }
-
+/*-----------------------------------------------------------
+            What is Borrowed
+-----------------------------------------------------------*/
     $sql = "SELECT * FROM borrow";
 
     $resultborrow = $conn->query($sql);
@@ -43,6 +93,7 @@
             array_push($borrowed,$row);
         }
     }
+
 
 
 ?>
@@ -93,17 +144,23 @@
                         }
                     }
                 $temp = 0;
-                foreach($borrowed as $b){
-                    if($b['mID'] == $row["ID"]){
-                        echo"<input type='submit' value='Reserve'/></form> <br>";
-                        $temp = 1;
-                    }    
+                foreach($filter as $type){
+                    if ($type == $row["type"]){
+                        foreach($borrowed as $b){
+                            if($b['mID'] == $row["ID"] && $b['uID'] == $uID){
+                                echo"<input type='hidden' name='return' value='$mID'/> <input type='submit' value='Return'/></form> <br>";
+                                $temp = 1;
+                            } else if ($b['mID'] == $row["ID"]){ 
+                                echo"<input type='hidden' name='reserve' value='$mID'/> <input type='submit' value='Reserve'/></form> <br>";
+                                $temp = 1;
+                            }    
+                        }
+                        if($temp == 0){
+                            echo"<input type='hidden' name='media' value='$mID'/> <input type='submit' value='Borrow'/></form> <br>";
+                        }
+                    }
                 }
-                if($temp == 0){
-                    echo"<input type='hidden' name='media' value='$mID'/> <input type='submit' value='Borrow'/></form> <br>";
-                }
-            }
-        }
+            }}
         ?>
     </div>
 </body>
