@@ -58,17 +58,25 @@
 </head>
 <body>
     <div>
-        <form id="searchf" method="POST" style="display:flex">
-            <input type="text" name="search" autofocus/>
-            <p> | Book</p>
-            <input type="checkbox" name="Book" checked></input>
-            <p> | Audio Book</p>
-            <input type="checkbox" name="AudioBook" checked></input>
-            <p> | Refrense Book</p>
-            <input type="checkbox" name="RefrenseBook" checked></input>
-            <p> | Moive</p>
-            <input type="checkbox" name="Movie" checked></input>
-            <input type="submit" value="Search"></input>
+        <form id="search" method="POST">
+            <div class="search">
+                <input type="text" name="search" placeholder="Search">
+                <input type="submit" value="🔍"></input>
+            </div>
+            <div class="filter">
+                <div class="img"><!-- sövde logo --></div>
+                <div>
+                    Book
+                    <input type="checkbox" name="Book" checked></input>
+                    Audio Book
+                    <input type="checkbox" name="AudioBook" checked></input>
+                    Refrense Book
+                    <input type="checkbox" name="RefrenseBook" checked></input>
+                    Moive
+                    <input type="checkbox" name="Movie" checked></input>
+                </div>
+                <input type="submit" value="Search"></input>
+            </div>
         </form>
     </div>
     <div class="con">
@@ -82,17 +90,69 @@
                     foreach($filter as $type){
                         if ($type == $row["type"]){
                             if($row["type"] == "Book" || $row["type"] == "Refrense Book"){
-                                echo "<form method='POST'><img src='./assets/img/".$row['type'].".svg' alt=''><div class='text'>" . $row["title"] . "<br>" . $row["ageRestriction"] . "+ <span class='length'>" . $row["length"]."PP</span></div> Condition: " . $row["quality"]+1 . "/10 ISBN: " . $row["ISBN"];
+                                echo "
+                                    <form method='POST'>
+                                        <img src='./assets/img/".$row['type'].".svg' alt=''>
+                                        <div class='text'>" . $row["title"] . "<br> 
+                                            <div class='text age-length'>" .
+                                                $row["ageRestriction"] . "+
+                                                <span class='length'>" . $row["length"] . "PP</span>
+                                            </div>
+                                            <div class='text condition-isbn'>
+                                                <span class='acssent'>➤</span> ISBN: " . $row["ISBN"] . "
+                                                <br>
+                                                <span class='acssent'>➤</span> Condition: " . $row["quality"]+1 . "/10
+                                            </div>
+                                        </div>";
                             } else{
-                                echo "<form method='POST'><img src='./assets/img/".$row['type'].".svg' alt=''><div class='text'>" . $row["title"] . "<br>" . $row["ageRestriction"] . "+ <span class='length'>" . $row["length"]."Min</span></div>";
+                                echo "
+                                    <form method='POST'>
+                                        <img src='./assets/img/".$row['type'].".svg' alt=''>
+                                        <div class='text'>" . $row["title"] . "<br> 
+                                            <div class='text age-length'>" .
+                                                $row["ageRestriction"] . "+
+                                                <span class='length'>" . $row["length"] . "Min</span>
+                                            </div>
+                                            <div class='text condition-isbn'>
+                                                <span class='acssent'>➤</span> ISBN: " . $row["ISBN"] . "
+                                                <br>
+                                                <span class='acssent'>➤</span> Condition: " . $row["quality"]+1 . "/10
+                                            </div>
+                                        </div>";
                             }
                         }
                     }
                 } else{
                         if($row["type"] == "Book" || $row["type"] == "Refrense Book"){
-                            echo "<form method='POST'><img src='./assets/img/".$row['type'].".svg' alt=''><div class='text'>" . $row["title"] . "<br>" . $row["ageRestriction"] . "+ <span class='length'>" . $row["length"]."PP</span></div>";
+                            echo "
+                                <form method='POST'>
+                                    <img src='./assets/img/".$row['type'].".svg' alt=''>
+                                    <div class='text'>" . $row["title"] . "<br> 
+                                        <div class='text age-length'>" .
+                                            $row["ageRestriction"] . "+
+                                            <span class='length'>" . $row["length"] . "PP</span>
+                                        </div>
+                                        <div class='text condition-isbn'>
+                                            ISBN: " . $row["ISBN"] . "
+                                            <br>
+                                            Condition: " . $row["quality"]+1 . "/10
+                                        </div>
+                                    </div>";
                         } else{
-                            echo "<form method='POST'><img src='./assets/img/".$row['type'].".svg' alt=''><div class='text'>" . $row["title"] . "<br>" . $row["ageRestriction"] . "+ <span class='length'>" . $row["length"]."Min</span></div>";
+                            echo "
+                                <form method='POST'>
+                                    <img src='./assets/img/".$row['type'].".svg' alt=''>
+                                    <div class='text'>" . $row["title"] . "<br> 
+                                        <div class='text age-length'>" .
+                                            $row["ageRestriction"] . "+
+                                            <span class='length'>" . $row["length"] . "Min</span>
+                                        </div>
+                                        <div class='text condition-isbn'>
+                                            ISBN: " . $row["ISBN"] . "
+                                            <br>
+                                            Condition: " . $row["quality"]+1 . "/10
+                                        </div>
+                                    </div>";
                         }
                     }
                 $temp = 0;

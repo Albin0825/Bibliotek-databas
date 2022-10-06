@@ -76,7 +76,7 @@ div.con div.signup {
     display: flex;
     flex-flow: column;
     align-items: center;
-    width: 480px;
+    width: 24vw;
     z-index: 1;
 }
 
@@ -86,7 +86,8 @@ div.signup h1 {
     font-size: 64px;
 }
 
-form {
+div.login form,
+div.signup form {
     display: flex;
     flex-flow: column;
     align-items: center;
@@ -107,16 +108,17 @@ input::placeholder {
     color: #85858585;
 }
 
-input:not([type=submit]) {
+.login input:not([type=submit]),
+.signup input:not([type=submit]) {
     border-bottom: solid 3px #85858585;
 }
 
-.login input[type=submit],
-.signup input[type=submit] {
+input[type=submit]:not(.search input[type="submit"]) {
     background: var(--ascent);
     color: #eee;
     letter-spacing: calc(24px * 0.25);
-    margin: 20px;
+    margin: 0;
+    margin-block: 20px;
     border-radius: 100px;
 }
 
@@ -132,24 +134,104 @@ input:not([type=submit]) {
 /* ================================================== */
 /* Main                                               */
 /* ================================================== */
-.con {
+.con:not(.login .con, .signup .con) {
+    position: absolute;
     display: grid;
-    grid-template-columns: auto auto auto auto auto;
-    width: calc(16.67vw * 5);
+    grid-template-columns: repeat(5, calc(100vw/6));
+    top: 80px;
+    right: 0;
 }
 
-form {
+form:not(.login form, .signup form, #search) {
     background: linear-gradient(45deg, rgba(255, 255, 255, 0) 20%, rgba(0, 0, 0, 0.06) 100%);
+    padding: 40px;
 }
 
-p {
-    text-align: left;
+form img{
+    width: 100%;
+    height: calc(100vw/6 - 40px);
+}
+
+.text {
+    font-size: 20px;
+    margin-block: 5px;
+}
+
+.text .age-length {
+    font-size: 16px;
 }
 
 .length {
     float: right;
 }
 
-.searchf {
-    display:flex;
+.condition-isbn {
+    font-size: 14px;
+}
+
+.acssent {
+    color: #E30653;
+}
+
+input[type="submit"]:not(.login input, .signup input) {
+    border-radius: 17px;
+}
+
+
+
+/* ================================================== */
+/* Search                                             */
+/* ================================================== */
+.search {
+    display: flex;
+    justify-content: center;
+}
+
+.search input[name="search"] {
+    width: 50%;
+    border-radius: 100px;
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.25);
+}
+
+.search input[type="submit"] {
+    background-color: transparent;
+    width: auto;
+    font-size: 24px;
+    border: none;
+    border-radius: 100px;
+    cursor: pointer;
+    filter: saturate(0);
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.25);
+}
+
+
+
+/* ================================================== */
+/* Filter                                             */
+/* ================================================== */
+.filter {
+    display: flex;
+    flex-flow: column;
+    align-content: space-between;
+    width: calc(100vw/6);
+    padding: 30px;
+}
+
+.filter .img {
+    background-image: url("../img/skövde.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 100%;
+    height: 227px;
+    margin-bottom: 50px;
+}
+
+.filter div {
+    display: grid;
+    grid-template-columns: auto auto;
+    width: 100%;
+}
+
+.filter input[type="submit"] {
+    width: 100%;
 }
