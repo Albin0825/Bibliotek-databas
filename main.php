@@ -17,6 +17,13 @@
         $sql = "SELECT * FROM media";
     }
     $result = $conn->query($sql);
+
+    if (!empty($_POST["return"])){
+        $return = $_POST["return"];
+        $sql = "DELETE FROM borrow WHERE borrow.mID = ".$return;
+        $retrunRes = $conn->query($sql);
+    }
+
     $filter = [];
 
     if(!empty($_POST["Book"])){
@@ -94,8 +101,11 @@
                     }
                 $temp = 0;
                 foreach($borrowed as $b){
-                    if($b['mID'] == $row["ID"]){
-                        echo"<input type='submit' value='Reserve'/></form> <br>";
+                    if($b['mID'] == $row["ID"] && $b['uID'] == $uID){
+                        echo"<input type='hidden' name='return' value='$mID'/> <input type='submit' value='Return'/></form> <br>";
+                        $temp = 1;
+                    } else if ($b['mID'] == $row["ID"]){
+                        echo"<input type='hidden' name='reserve' value='$mID'/> <input type='submit' value='Reserve'/></form> <br>";
                         $temp = 1;
                     }    
                 }
