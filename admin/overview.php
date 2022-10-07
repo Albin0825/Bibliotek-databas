@@ -8,15 +8,15 @@ require_once('../php/getOverview.php');
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Adminsida</title>
+    <title>Admin</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <!-- Navigering -->
     <div>
-        <a href = "admin-media.php"><button>Media</button></a>
-        <a href = "admin-users.php"><button>Användare</button></a>
+        <a href = "media.php"><button>Media</button></a>
+        <a href = "users.php"><button>Users</button></a>
     </div>
 
     <!-- Adminöversikt -->

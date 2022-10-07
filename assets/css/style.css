@@ -78,3 +78,56 @@ input {
     font-size: 13px;
     margin: 3px;
 }
+
+table, th, td {
+    border: 1px solid black;
+    border-collapse:collapse;
+}
+
+th {
+    background-color:#E30653;
+    color:white;
+}
+
+td, th {
+    padding:8px;
+}
+
+#new-media {
+    align-items:flex-start;
+    width:36%;
+    margin-left:32%;
+}
+
+#new-media label {
+    margin-top:12px;
+}
+
+#new-media input {
+    margin-top:2px;
+    height:36px;
+}
+
+#new-media input[type=submit] {
+    margin-top:18px;
+    margin-bottom:18px;
+    background-color:#E30653;
+    color:white;
+    padding:0;
+}
+
+#new-media input[type=submit]:hover {
+    filter:brightness(125%);
+    cursor:pointer;
+}
+
+#new-media select {
+    width:100%;
+}
+
+#new-media a {
+    color:rgb(0, 32, 194);
+    margin-top:3px;
+    font-size:12px;
+    padding:2px;
+}
