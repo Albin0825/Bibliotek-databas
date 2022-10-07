@@ -159,11 +159,16 @@
 
     $resultborrow = $conn->query($sql);
 
-    $borrowed = [];
+    $borroweded = [];
     if ($resultborrow->num_rows > 0) {
         // output data of each row
         while($row = $resultborrow->fetch_assoc()) {
-            array_push($borrowed,$row);
+            foreach($borrowed as $b){
+                if($b != $row){
+                    array_push($borroweded,$row);
+                }
+            }
+            
         }
     }
 ?>
@@ -280,21 +285,21 @@
                         if ($type == $row["type"]){
                             foreach($borroweded as $b){
                                 if($b['mID'] == $row["ID"] && $b['uID'] == $uID){
-                                    echo"<input type='hidden' name='return' value='$mID'/> <input type='submit' value='Return'/></form> <br>";
+                                    echo"<input type='hidden' name='return' value='$mID'/> <input type='submit' value='Return'/></form>";
                                     $temp = 1;
                                 } else if ($b['mID'] == $row["ID"]){ 
-                                    echo"<input type='hidden' name='reserve' value='$mID'/> <input type='submit' value='Reserve'/></form> <br>";
+                                    echo"<input type='hidden' name='reserve' value='$mID'/> <input type='submit' value='Reserve'/></form>";
                                     $temp = 1;
                                 }
                             }
                             foreach($queue as $q){
                                 if($q['mID'] == $row["ID"] && $q['uID'] == $uID){
-                                    echo"<input type='hidden' name='unReserve' value='$mID'/> <input type='submit' value='Stop Reserving'/></form> <br>";
+                                    echo"<input type='hidden' name='unReserve' value='$mID'/> <input type='submit' value='Stop Reserving'/></form>";
                                     $temp = 1;
                                 }
                             }
                             if($temp == 0){
-                                echo"<input type='hidden' name='media' value='$mID'/> <input type='submit' value='Borrow'/></form> <br>";
+                                echo"<input type='hidden' name='media' value='$mID'/> <input type='submit' value='Borrow'/></form>";
                             }
                         }
                     }
