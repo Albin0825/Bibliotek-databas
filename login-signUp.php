@@ -15,7 +15,12 @@
                 while($row = $result->fetch_assoc()) {
                     $_SESSION["uID"] = $row["id"];
                     if($row["id"] == 0) {
-                        echo "hej hej"; // admin
+                        ?>
+                    <script>
+                        location.replace("http://localhost:8080/phpmyadmin/index.php?route=/database/structure&db=bibloteket")
+                    </script>
+                <?php
+                        
                     }
                     else {
                         echo "ID: " . $row["id"] . " | Name: " . $row["name"]. " | Password:" . $row["password"]. "<br>"; // normal user
