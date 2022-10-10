@@ -17,7 +17,7 @@
                     if($row["id"] == 0) {
                         ?>
                     <script>
-                        location.replace("http://localhost:8080/phpmyadmin/index.php?route=/database/structure&db=bibloteket")
+                        location.replace("admin/overview.php")
                     </script>
                 <?php
                         
