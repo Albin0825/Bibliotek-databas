@@ -3,8 +3,39 @@ require_once('../db.php');
 require_once('../php/getGenres.php');
 require_once('../php/getAuthors.php');
 
-if(isset($_POST)) {
+if(isset($_POST['m-name'])) {
     $name = $_POST['m-name'];
+    $authors = $_POST['m-author'];
+    $genres = $_POST['m-genre'];
+    $type = $_POST['m-type'];
+    $age = $_POST['m-age'];
+    $length = $_POST['m-length'];
+    $quality = $_POST['m-cond'];
+    $price = $_POST['m-price'];
+    $ISBN = $_POST['m-isbn'];
+
+    $sql = "INSERT INTO media (title,type,ageRestriction,length,quality,price,ISBN)
+        VALUES (?,?,?,?,?,?,?)";
+
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("ssiiiis", $name, $type, $age, $length, $quality, $price, $ISBN);
+    $stmt->execute();
+
+    $mediaID = $stmt->insert_id;
+
+    foreach($authors as $a) {
+        $sql = "INSERT INTO mediacreator (mID, cID) VALUES (?,?)";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("ii", $mediaID, $a);
+        $stmt->execute();
+    }
+
+    foreach($genres as $g) {
+        $sql = "INSERT INTO mediagenre (gID, mID) VALUES (?,?)";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("ii", $g, $mediaID);
+        $stmt->execute();
+    }
 }
 
 ?>
@@ -31,32 +62,35 @@ if(isset($_POST)) {
     <!-- Media Form -->
     <form method="post" id="new-media">
 
+        <!-- Media name -->
         <label for="m-name">Name:</label>
         <input type="text" name="m-name" style="margin-top:3px;">
 
+        <!-- Author -->
         <label for="m-author[]">Author(s):</label>
         <select name="m-author[]" multiple>
             <?php
             foreach($authorList as $author) {
-                $a = $author->name;
-                echo "<option value=". str_replace(" ","_",$a) . ">" . $a . "</option>";
+
+                echo "<option value=". $author->ID . ">" . $author->name . "</option>";
             }
             ?>
         </select>
-
         <a href="new-author.php">Add New Author</a>
+
+        <!-- Genre -->
 
         <label for="m-genre[]">Genre(s):</label>
         <select name="m-genre[]" multiple>
             <?php
             foreach($genreList as $genre) {
-                $g = $genre->name;
-                echo "<option value=". str_replace(" ","_",$g) . ">" . $g . "</option>";
+                echo "<option value=". $genre->ID . ">" . $genre->name . "</option>";
             }
             ?>
         </select>
-
         <a href="new-genre.php">Add New Genre</a>
+
+        <!-- Type -->
 
         <label for="m-type">Type:</label>
         <select name="m-type" style="margin-top:3px;">
@@ -65,6 +99,8 @@ if(isset($_POST)) {
             <option value="Audio Book">Audio Book</option>
             <option value="Refrense Book">Reference Book</option>
         </select>
+
+        <!-- Age requirement -->
 
         <label for="m-age">Age requirement:</label>
         <select name="m-age" style="margin-top:3px;">
@@ -76,15 +112,20 @@ if(isset($_POST)) {
             <option value=16>16</option>
             <option value=18>18+</option>
         </select>
-
+        
+        <!-- Length -->
         <label for="m-length">Length:</label>
         <input type="number" name="m-length">
 
+        <!-- Condition -->
         <label for="m-cond">Condition:</label>
         <input type="number" name="m-cond">
 
+        <!-- Price -->
         <label for="m-price">Price:</label>
         <input type="number" name="m-price">
+
+        <!-- ISBN -->
 
         <label for="m-isbn">ISBN:</label>
         <input type="text" name="m-isbn">
