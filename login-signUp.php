@@ -7,7 +7,7 @@
             $name = $_POST["name"];
             $password = $_POST["password"];
 
-            $sql = "SELECT id, name, password FROM user WHERE name='$name' and password='$password'";
+            $sql = "SELECT id, name, password FROM user WHERE BINARY name='$name' and BINARY password='$password'";
             $result = $conn->query($sql);
 
             if ($result->num_rows > 0) {
@@ -43,6 +43,7 @@
     }
 
     if (isset($_POST['sign-up'])) {
+        $list = [];
         if(!empty($_POST)){
             $name = $_POST["name"];
             $password = $_POST["password"];
@@ -50,26 +51,46 @@
             $dob = $_POST["dob"];
             $adress = $_POST["adress"];
 
-            if($password === $cPassword) {
-                $sql = "INSERT INTO user(name, password, dob, adress) VALUE('$name', '$password', '$dob', '$adress')";
+            $sql = "SELECT * FROM user";
+            $result = $conn->query($sql);
+            
+            while ($row = $result->fetch_assoc()) {
                 
-                if ($conn->query($sql) === TRUE) {
+                array_push($list,$row);
+            }
+            
+
+            foreach($list as $x) {
+                if($name == $x["name"] && $password == $x["password"]) {
                     ?>
                         <script>
-                            location.replace("./")
+                            location.replace("sign-up/")
                         </script>
                     <?php
                 }
-                else {
-                    echo "Error: " . $sql . "<br>" . $conn->error;
+                else if($list[count($list)-1] == $x ) {
+                    if($password === $cPassword) {
+                        $sql = "INSERT INTO user(name, password, dob, adress) VALUE('$name', '$password', '$dob', '$adress')";
+                        
+                        if ($conn->query($sql) === TRUE) {
+                            ?>
+                                <script>
+                                    location.replace("./")
+                                </script>
+                            <?php
+                        }
+                        else {
+                            echo "Error: " . $sql . "<br>" . $conn->error;
+                        }
+                    }
+                    else {
+                        ?>
+                            <script>
+                                location.replace("sign-up/")
+                            </script>
+                        <?php
+                    }
                 }
-            }
-            else {
-                ?>
-                    <script>
-                        location.replace("sign-up/")
-                    </script>
-                <?php
             }
         }
     }
