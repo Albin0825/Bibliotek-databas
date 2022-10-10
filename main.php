@@ -45,9 +45,9 @@
         print_r($_POST);
         $search = $_POST["search"];
         if(is_numeric($search)){
-            $sql = "SELECT * FROM media WHERE media.ISBN LIKE '$search' ORDER BY `media`.`title` ASC";
+            $sql = "SELECT * FROM media WHERE media.ISBN LIKE '$search' ORDER BY title ASC";
         }else{
-            $sql = "SELECT * FROM media WHERE media.title LIKE '%$search%' ORDER BY `media`.`title` ASC";
+            $sql = "SELECT * FROM media WHERE media.title LIKE '%$search%' ORDER BY title ASC";
         }
         
     }else if(!empty($_POST["search"]) && !empty($_POST["sorting"])){
