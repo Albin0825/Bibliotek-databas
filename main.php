@@ -37,14 +37,12 @@
         array_push($filter,"Refrense Book");
         array_push($filter,"Movie");
     }
-
-
-    print_r(empty($_POST["sorting"]));
     /*============================================================
         Search
     ============================================================*/
+    
     if (!empty($_POST["search"]) && empty($_POST["sorting"])){
-        
+        print_r($_POST);
         $search = $_POST["search"];
         if(is_numeric($search)){
             $sql = "SELECT * FROM media WHERE media.ISBN LIKE '$search' ORDER BY `media`.`title` ASC";
@@ -54,12 +52,12 @@
         
     }else if(!empty($_POST["search"]) && !empty($_POST["sorting"])){
         $search = $_POST["search"];
-        print_r($_POST);
+        
         if($_POST["sorting"] = "A-Ö"){
-            $sql = "SELECT * FROM media WHERE media.title LIKE '%$search%' ORDER BY `media`.`title` ASC";
+            $sql = "SELECT * FROM media WHERE media.title LIKE '%$search%' ORDER BY title ASC";
         }
         if($_POST["sorting"] = "Ö-A"){
-            $sql = "SELECT * FROM media WHERE media.title LIKE '%$search%' ORDER BY `media`.`title` DESC";
+            $sql = "SELECT * FROM media WHERE media.title LIKE '%$search%' ORDER BY title DESC";
         }
         if($_POST["sorting"] = "Längd>"){
             $sql = "SELECT * FROM media WHERE media.title LIKE '%$search%' ORDER BY `media`.`length` ASC";
@@ -68,6 +66,7 @@
             $sql = "SELECT * FROM media WHERE media.title LIKE '%$search%' ORDER BY `media`.`length` DESC";
         }
     }else{
+        print_r($_POST);
         $sql = "SELECT * FROM media ORDER BY `media`.`title` ASC";
     }
     $result = $conn->query($sql);
