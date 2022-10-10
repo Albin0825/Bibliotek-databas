@@ -48,7 +48,7 @@ if(isset($_POST['m-name'])) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin</title>
-    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/styleA.css">
 </head>
 <body>
 
@@ -71,6 +71,7 @@ if(isset($_POST['m-name'])) {
         <select name="m-author[]" multiple>
             <?php
             foreach($authorList as $author) {
+
                 echo "<option value=". $author->ID . ">" . $author->name . "</option>";
             }
             ?>
@@ -78,6 +79,7 @@ if(isset($_POST['m-name'])) {
         <a href="new-author.php">Add New Author</a>
 
         <!-- Genre -->
+
         <label for="m-genre[]">Genre(s):</label>
         <select name="m-genre[]" multiple>
             <?php
@@ -89,6 +91,7 @@ if(isset($_POST['m-name'])) {
         <a href="new-genre.php">Add New Genre</a>
 
         <!-- Type -->
+
         <label for="m-type">Type:</label>
         <select name="m-type" style="margin-top:3px;">
             <option value="Book">Book</option>
@@ -98,6 +101,7 @@ if(isset($_POST['m-name'])) {
         </select>
 
         <!-- Age requirement -->
+
         <label for="m-age">Age requirement:</label>
         <select name="m-age" style="margin-top:3px;">
             <option value=0>None</option>
@@ -108,7 +112,7 @@ if(isset($_POST['m-name'])) {
             <option value=16>16</option>
             <option value=18>18+</option>
         </select>
-
+        
         <!-- Length -->
         <label for="m-length">Length:</label>
         <input type="number" name="m-length">
@@ -122,6 +126,7 @@ if(isset($_POST['m-name'])) {
         <input type="number" name="m-price">
 
         <!-- ISBN -->
+
         <label for="m-isbn">ISBN:</label>
         <input type="text" name="m-isbn">
 
