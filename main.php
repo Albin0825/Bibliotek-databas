@@ -4,6 +4,7 @@
     $uID = $_SESSION["uID"];
     $filter = [];
 
+
     /*============================================================
         Get User
     ============================================================*/
@@ -38,11 +39,12 @@
     }
 
 
-
+    print_r(empty($_POST["sorting"]));
     /*============================================================
         Search
     ============================================================*/
-    if (!empty($_POST["search"])){
+    if (!empty($_POST["search"]) && empty($_POST["sorting"])){
+        
         $search = $_POST["search"];
         if(is_numeric($search)){
             $sql = "SELECT * FROM media WHERE media.ISBN LIKE '$search' ORDER BY `media`.`title` ASC";
@@ -50,6 +52,21 @@
             $sql = "SELECT * FROM media WHERE media.title LIKE '%$search%' ORDER BY `media`.`title` ASC";
         }
         
+    }else if(!empty($_POST["search"]) && !empty($_POST["sorting"])){
+        $search = $_POST["search"];
+        print_r($_POST);
+        if($_POST["sorting"] = "A-Ö"){
+            $sql = "SELECT * FROM media WHERE media.title LIKE '%$search%' ORDER BY `media`.`title` ASC";
+        }
+        if($_POST["sorting"] = "Ö-A"){
+            $sql = "SELECT * FROM media WHERE media.title LIKE '%$search%' ORDER BY `media`.`title` DESC";
+        }
+        if($_POST["sorting"] = "Längd>"){
+            $sql = "SELECT * FROM media WHERE media.title LIKE '%$search%' ORDER BY `media`.`length` ASC";
+        }
+        if($_POST["sorting"] = "Längd<"){
+            $sql = "SELECT * FROM media WHERE media.title LIKE '%$search%' ORDER BY `media`.`length` DESC";
+        }
     }else{
         $sql = "SELECT * FROM media ORDER BY `media`.`title` ASC";
     }
@@ -105,6 +122,18 @@
     /*============================================================
         Filter
     ============================================================*/
+    $sql = "SELECT * FROM genre";
+
+    $resultGenre = $conn->query($sql);
+
+    $genre = [];
+    if ($resultGenre->num_rows > 0) {
+        // output data of each row
+        while($row = $resultGenre->fetch_assoc()) {
+            array_push($genre,$row);
+        }
+    }
+
     if($_POST == NULL){
         array_push($filter,"Book");
         array_push($filter,"Audio Book");
@@ -227,6 +256,20 @@
                 </div>
                 <div class="filter">
                     <div class="img"><!-- sövde logo --></div>
+                    <select name="genre" id="cars">
+                        <?php 
+                        foreach($genre as $g){
+                            echo "<option value=".$g["name"].">$g[name]</option>";
+                        }
+                        ?>
+                    </select>
+                    <select name="sorting" id="cars">
+                        <option value="A-Ö">A - Ö</option>
+                        <option value="Ö-A">Ö - A</option>
+                        <option value="Längd>">Längd ></option>
+                        <option value="Längd<">Längd <</option>
+                    </select>
+                    
                     <div>
                         Book
                         <input type="checkbox" name="Book" checked></input>
