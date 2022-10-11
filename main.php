@@ -254,7 +254,7 @@
                         if ($type == $row["type"]){
                             if($row["type"] == "Book" || $row["type"] == "Refrense Book"){
                                 echo "
-                                    <form method='POST'>
+                                    <form class='conForm' method='POST'>
                                         <img src='./assets/img/".$row['type'].".svg' alt=''>
                                         <div class='text'>" . $row["title"] . "<br> 
                                             <div class='text age-length'>" .
@@ -269,7 +269,7 @@
                                         </div>";
                             } else{
                                 echo "
-                                    <form method='POST'>
+                                    <form class='conForm' method='POST'>
                                         <img src='./assets/img/".$row['type'].".svg' alt=''>
                                         <div class='text'>" . $row["title"] . "<br> 
                                             <div class='text age-length'>" .
@@ -288,7 +288,7 @@
                 } else{
                         if($row["type"] == "Book" || $row["type"] == "Refrense Book"){
                             echo "
-                                <form method='POST'>
+                                <form class='conForm' method='POST'>
                                     <img src='./assets/img/".$row['type'].".svg' alt=''>
                                     <div class='text'>" . $row["title"] . "<br> 
                                         <div class='text age-length'>" .
@@ -303,7 +303,7 @@
                                     </div>";
                         } else{
                             echo "
-                                <form method='POST'>
+                                <form class='conForm' method='POST'>
                                     <img src='./assets/img/".$row['type'].".svg' alt=''>
                                     <div class='text'>" . $row["title"] . "<br> 
                                         <div class='text age-length'>" .
@@ -341,5 +341,6 @@
             }
         ?>
     </div>
+    <script src="./assets/js/app.js"></script>
 </body>
 </html>
