@@ -42,7 +42,7 @@
     ============================================================*/
     
     if (!empty($_POST["search"]) && empty($_POST["sorting"])){
-        print_r($_POST);
+        
         $search = $_POST["search"];
         if(is_numeric($search)){
             $sql = "SELECT * FROM media WHERE media.ISBN LIKE '$search' ORDER BY title ASC";
@@ -52,12 +52,15 @@
         
     }else if(!empty($_POST["search"]) && !empty($_POST["sorting"])){
         $search = $_POST["search"];
+        print_r($_POST);
         
         if($_POST["sorting"] = "A-Ö"){
             $sql = "SELECT * FROM media WHERE media.title LIKE '%$search%' ORDER BY title ASC";
+            print_r($sql);
         }
         if($_POST["sorting"] = "Ö-A"){
             $sql = "SELECT * FROM media WHERE media.title LIKE '%$search%' ORDER BY title DESC";
+            print_r($sql);
         }
         if($_POST["sorting"] = "Längd>"){
             $sql = "SELECT * FROM media WHERE media.title LIKE '%$search%' ORDER BY `media`.`length` ASC";
@@ -256,6 +259,7 @@
                 <div class="filter">
                     <div class="img"><!-- sövde logo --></div>
                     <select name="genre" id="cars">
+                        <option value="none">Genre</option>
                         <?php 
                         foreach($genre as $g){
                             echo "<option value=".$g["name"].">$g[name]</option>";
