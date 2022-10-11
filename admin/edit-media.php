@@ -3,6 +3,19 @@ require_once('../db.php');
 require_once('../php/getGenres.php');
 require_once('../php/getAuthors.php');
 
+// Get the ID of the media being edited. 
+$mediaID = $_GET['id'];
+// Return to media table if no ID is given
+if(!$mediaID) {
+    header("Location: media.php");
+}
+
+$sql = "SELECT * FROM media WHERE ID = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i",$mediaID);
+$stmt->execute();
+$media = $stmt->get_result()->fetch_assoc(); 
+
 if(isset($_POST['m-name'])) {
     $name = $_POST['m-name'];
     $authors = $_POST['m-author'];
