@@ -41,14 +41,125 @@
         Search
     ============================================================*/
     
-    if (!empty($_POST["search"]) && empty($_POST["sorting"])){
+    $mediagenre = [];
+
+    $sql = "SELECT * FROM mediagenre";
+    $result = $conn->query($sql);    
+    
+    while ($row = $result->fetch_assoc()) {
+                
+        array_push($mediagenre,$row);
+    }
+
+    $mediaG = [];
+
+    $sql = "SELECT * FROM media";
+    $result = $conn->query($sql);    
+    
+    while ($row = $result->fetch_assoc()) {
+                
+        array_push($mediaG,$row);
+    }
+
+
+    if(!empty($_POST["sorting"])){
+        if(!empty($_POST["search"])){
+            $search = $_POST["search"];
+            if($_POST["sorting"] === "A-Ö"){
+                if(!empty($_POST["genre"])){
+                    $g = $_POST["genre"];
+                    $sql = "SELECT * FROM mediagenre INNER JOIN genre ON genre.ID = mediagenre.gID INNER JOIN media ON media.ID = mediagenre.mID AND genre.id = $g AND media.title LIKE '%$search%' ORDER BY title ASC";
+                    
+                } else{
+                    $sql = "SELECT * FROM media WHERE media.title LIKE '%$search%' ORDER BY title ASC";
+                    
+                }
+            }
+            if($_POST["sorting"] === "Ö-A"){
+                if(!empty($_POST["genre"])){
+                    $g = $_POST["genre"];
+                    $sql = "SELECT * FROM mediagenre INNER JOIN genre ON genre.ID = mediagenre.gID INNER JOIN media ON media.ID = mediagenre.mID AND genre.id = $g AND media.title LIKE '%$search%' ORDER BY title DESC";
+                    
+                }else{
+                    $sql = "SELECT * FROM media WHERE media.title LIKE '%$search%' ORDER BY title DESC";
+                    
+                }
+            }
+            if($_POST["sorting"] === "Längd>"){
+                if(!empty($_POST["genre"])){
+                    $g = $_POST["genre"];
+                    $sql = "SELECT * FROM mediagenre INNER JOIN genre ON genre.ID = mediagenre.gID INNER JOIN media ON media.ID = mediagenre.mID AND genre.id = $g AND media.title LIKE '%$search%' ORDER BY `media`.`length` ASC";
+                    
+                }else{
+                    $sql = "SELECT * FROM media WHERE media.title LIKE '%$search%' ORDER BY `media`.`length` ASC";
+                    
+                }
+            }
+            if($_POST["sorting"] === "Längd<"){
+                if(!empty($_POST["genre"])){
+                    $g = $_POST["genre"];
+                    $sql = "SELECT * FROM mediagenre INNER JOIN genre ON genre.ID = mediagenre.gID INNER JOIN media ON media.ID = mediagenre.mID AND genre.id = $g AND media.title LIKE '%$search%' ORDER BY `media`.`length` DESC";
+                    
+                }else{
+                    $sql = "SELECT * FROM media WHERE media.title LIKE '%$search%' ORDER BY `media`.`length` DESC";
+                    
+                }
+            }
+        } else{
+            if($_POST["sorting"] === "A-Ö"){
+                if(!empty($_POST["genre"])){
+                    $g = $_POST["genre"];
+                    $sql = "SELECT * FROM mediagenre INNER JOIN genre ON genre.ID = mediagenre.gID INNER JOIN media ON media.ID = mediagenre.mID AND genre.id = $g ORDER BY title ASC";
+                    
+                }else{
+                    $sql = "SELECT * FROM media ORDER BY title ASC";
+                    
+                }
+            }
+            if($_POST["sorting"] === "Ö-A"){
+                if(!empty($_POST["genre"])){
+                    $g = $_POST["genre"];
+                    $sql = "SELECT * FROM mediagenre INNER JOIN genre ON genre.ID = mediagenre.gID INNER JOIN media ON media.ID = mediagenre.mID AND genre.id = $g ORDER BY title DESC";
+                    
+                }else{
+                    $sql = "SELECT * FROM media ORDER BY title DESC";
+                    
+                }
+            }
+            if($_POST["sorting"] === "Längd>"){
+                if(!empty($_POST["genre"])){
+                    $g = $_POST["genre"];
+                    $sql = "SELECT * FROM mediagenre INNER JOIN genre ON genre.ID = mediagenre.gID INNER JOIN media ON media.ID = mediagenre.mID AND genre.id = $g ORDER BY `media`.`length` ASC";
+                    
+                }else{
+                    $sql = "SELECT * FROM media ORDER BY `media`.`length` ASC";
+                    
+                }
+            }
+            if($_POST["sorting"] === "Längd<"){
+                if(!empty($_POST["genre"])){
+                    $g = $_POST["genre"];
+                    $sql = "SELECT * FROM mediagenre INNER JOIN genre ON genre.ID = mediagenre.gID INNER JOIN media ON media.ID = mediagenre.mID AND genre.id = $g ORDER BY `media`.`length` DESC";
+                    
+                }else{
+                    $sql = "SELECT * FROM media ORDER BY `media`.`length` DESC";
+                    
+                }
+            }
+        }
+    } else{
+        $sql = "SELECT * FROM media ORDER BY title ASC";
+    }
+        $result = $conn->query($sql); 
+
+
+
+/*    
+    if (!empty($_POST["search"]) && !empty($_POST["sorting"]) && is_numeric($_POST["search"])){
         
         $search = $_POST["search"];
-        if(is_numeric($search)){
-            $sql = "SELECT * FROM media WHERE media.ISBN LIKE '$search' ORDER BY title ASC";
-        }else{
-            $sql = "SELECT * FROM media WHERE media.title LIKE '%$search%' ORDER BY title ASC";
-        }
+        $sql = "SELECT * FROM media WHERE media.ISBN LIKE '$search' ORDER BY title ASC";
+
         
     }else if(!empty($_POST["search"]) && !empty($_POST["sorting"])){
         $search = $_POST["search"];
@@ -60,10 +171,14 @@
             $sql = "SELECT * FROM media WHERE media.title LIKE '%$search%' ORDER BY title DESC";
         }
         if($_POST["sorting"] === "Längd>"){
+            
             $sql = "SELECT * FROM media WHERE media.title LIKE '%$search%' ORDER BY `media`.`length` ASC";
+$sql = "SELECT * FROM media WHERE media.title LIKE '%$search%' ORDER BY `media`.`length` DESC";
         }
         if($_POST["sorting"] === "Längd<"){
-            $sql = "SELECT * FROM media WHERE media.title LIKE '%$search%' ORDER BY `media`.`length` DESC";
+            
+            $sql = "SELECT * FROM media WHERE media.title LIKE '%$search%' ORDER BY `media`.`length` ASC";
+$sql = "SELECT * FROM media WHERE media.title LIKE '%$search%' ORDER BY `media`.`length` DESC";
         }
     }else if(!empty($_POST["sorting"])){
         if($_POST["sorting"] === "A-Ö"){
@@ -81,7 +196,8 @@
     } else{
         $sql = "SELECT * FROM media ORDER BY `media`.`title` ASC";
     }
-    $result = $conn->query($sql);
+    
+*/ 
 
 
 
@@ -112,9 +228,6 @@
         array_push($filter,"Refrense Book");
         array_push($filter,"Movie");
     }
-
-
-
     ============================================================
         unReserve
     ============================================================
@@ -170,9 +283,7 @@
         Reserve
     ============================================================
     $sql = "SELECT * FROM queue";
-
     $resultqueue = $conn->query($sql);
-
     $queue = [];
     if ($resultqueue->num_rows > 0) {
         // output data of each row
@@ -188,9 +299,7 @@
     ============================================================*/
     /*
     $sql = "SELECT * FROM borrow";
-
     $resultborrow = $conn->query($sql);
-
     $borrowed = [];
     if ($resultborrow->num_rows > 0) {
         // output data of each row
@@ -214,9 +323,7 @@
             }
         }
     }
-
     $resultborrow = $conn->query($sql);
-
     $borroweded = [];
     if ($resultborrow->num_rows > 0) {
         // output data of each row
@@ -267,70 +374,30 @@
                 </div>
                 <div class="filter">
                     <div class="img"><!-- sövde logo --></div>
-                    <select name="genre" id="cars">
-                        <option value="none">Genre</option>
+                    <select name="genre" id="kars">
+                        <option value="">Genre</option>
                         <?php 
                         foreach($genre as $g){
-                            echo "<option value=".$g["name"].">$g[name]</option>";
+                            echo "<option value=".$g["ID"].">$g[name]</option>";
                         }
                         ?>
                     </select>
                     <select name="sorting" id="cars">
-                    <?php 
-                        $sort = ["A-Ö","Ö-A","Längd<","Längd>"];
-                        foreach($sort as $s){
-                            if($s == $_POST["sorting"]){
-                                echo "<option selected value=".$s.">$s</option>";
-                            } else{
-                                echo "<option value=".$s.">$s</option>";
-                            }
-                        }
-                    ?>
+                        <option value="A-Ö">A - Ö</option>
+                        <option value="Ö-A">Ö - A</option>
+                        <option value="Längd>">Längd ></option>
+                        <option value="Längd<">Längd <</option>
                     </select>
                     
                     <div>
-                    <?php 
-                        $med = ["Book","AudioBook","RefrenseBook","Movie"];
-                        $unsetMed = $med;
-                        $postMed = [];
-                        $postedMed = [];
-                        if(!empty($_POST["Book"])){
-                            array_push($postMed,"Book");
-                        }
-                        if(!empty($_POST["AudioBook"])){
-                            array_push($postMed,"AudioBook");
-                        }
-                        if(!empty($_POST["RefrenseBook"])){
-                            array_push($postMed,"RefrenseBook");
-                        }
-                        if(!empty($_POST["Movie"])){
-                            array_push($postMed,"Movie");
-                        }
-                        foreach($med as $m){
-                            foreach($postMed as $pm){
-                                if($m == $pm){
-                                    echo $m."<input type='checkbox' name='".$m."' checked></input>";
-                                    array_push($postedMed,$m);
-                                }
-                            }
-                        }
-                        foreach($med as $m){
-                            foreach($postedMed as $pm){
-                                if($m == $pm){
-                                    array_splice($unsetMed,array_search($m,$unsetMed),1);
-                                    
-                                }
-                            }
-                        }
-                        foreach($unsetMed as $um){
-                            if(count($unsetMed) == 4){
-                                echo $um."<input type='checkbox' name='".$um."'checked ></input>";
-                            } else{
-                                echo $um."<input type='checkbox' name='".$um."' ></input>";
-                            }
-                        }
-                    ?>
-
+                        Book
+                        <input type="checkbox" name="Book" checked></input>
+                        Audio Book
+                        <input type="checkbox" name="AudioBook" checked></input>
+                        Refrense Book
+                        <input type="checkbox" name="RefrenseBook" checked></input>
+                        Moive
+                        <input type="checkbox" name="Movie" checked></input>
                     </div>
                     <input type="submit" value="Search"></input>
                 </div>
