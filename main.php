@@ -318,6 +318,7 @@
                             foreach($postedMed as $pm){
                                 if($m == $pm){
                                     array_splice($unsetMed,array_search($m,$unsetMed),1);
+                                    
                                 }
                             }
                         }
