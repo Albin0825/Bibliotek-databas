@@ -122,10 +122,16 @@ if(isset($_POST['m-name'])) {
 
         <label for="m-type">Type:</label>
         <select name="m-type" style="margin-top:3px;">
-            <option value="Book" <?php if($media->type == "Book") {echo "selected";} ?>>Book</option>
-            <option value="Movie" <?php if($media->type == "Movie") {echo "selected";} ?>>Movie</option>
-            <option value="Audio Book" <?php if($media->type == "Audio Book") {echo "selected";} ?>>Audio Book</option>
-            <option value="Refrense Book" <?php if($media->type == "Refrense Book") {echo "selected";} ?>>Reference Book</option>
+            <?php 
+                // Create options for media type based on the given data
+                $data = ["Book","Movie","Audio Book","Refrense Book"];
+                foreach($data as $d) {
+                    echo "<option value=" . $d;
+                    // The medias current type is marked as selected
+                    if($media->type == $d) {echo " selected";}
+                    echo ">" . $d . "</option>";
+                }
+            ?>
         </select>
 
         <!-- Age requirement -->
@@ -133,9 +139,11 @@ if(isset($_POST['m-name'])) {
         <label for="m-age">Age requirement:</label>
         <select name="m-age" style="margin-top:3px;">
             <?php 
+                // Create options for age restrictions based on the given data
                 $data = [[0,"None"],[3,"3"],[7,"7"],[9,"9"],[12,"12"],[16,"16"],[18,"18+"]];
                 foreach($data as $d) {
                     echo "<option value=" . $d[0];
+                    // The medias current age restriction is marked as selected
                     if($media->ageRestriction == $d[0]) {echo " selected";}
                     echo ">" . $d[1] . "</option>";
                 }

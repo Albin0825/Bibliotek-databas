@@ -39,7 +39,6 @@ if(isset($_POST['m-name'])) {
 
     header("Location: media.php");
 }
-
 ?>
 
 
