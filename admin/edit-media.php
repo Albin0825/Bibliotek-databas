@@ -10,11 +10,8 @@ if(!$mediaID) {
     header("Location: media.php");
 }
 
-$sql = "SELECT * FROM media WHERE ID = ?";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("i",$mediaID);
-$stmt->execute();
-$media = $stmt->get_result()->fetch_assoc(); 
+require_once('../php/getMedia.php');
+$media = $mediaList[0];
 
 if(isset($_POST['m-name'])) {
     $name = $_POST['m-name'];
@@ -27,14 +24,12 @@ if(isset($_POST['m-name'])) {
     $price = $_POST['m-price'];
     $ISBN = $_POST['m-isbn'];
 
-    $sql = "INSERT INTO media (title,type,ageRestriction,length,quality,price,ISBN)
-        VALUES (?,?,?,?,?,?,?)";
+    $sql = "UPDATE media SET title = ?, type = ?, ageRestriction = ?, length= ?, quality = ?, price = ?, ISBN = ?
+        WHERE ID = ?";
 
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ssiiiis", $name, $type, $age, $length, $quality, $price, $ISBN);
+    $stmt->bind_param("ssiiiisi", $name, $type, $age, $length, $quality, $price, $ISBN, $mediaID);
     $stmt->execute();
-
-    $mediaID = $stmt->insert_id;
 
     foreach($authors as $a) {
         $sql = "INSERT INTO mediacreator (mID, cID) VALUES (?,?)";
@@ -49,6 +44,8 @@ if(isset($_POST['m-name'])) {
         $stmt->bind_param("ii", $g, $mediaID);
         $stmt->execute();
     }
+
+    header("Location: media.php");
 }
 
 ?>
@@ -77,15 +74,24 @@ if(isset($_POST['m-name'])) {
 
         <!-- Media name -->
         <label for="m-name">Name:</label>
-        <input type="text" name="m-name" style="margin-top:3px;">
+        <input type="text" name="m-name" style="margin-top:3px;" value="<?php echo $media->title ?>">
 
         <!-- Author -->
         <label for="m-author[]">Author(s):</label>
         <select name="m-author[]" multiple>
             <?php
+            // Dynamically create the option list for the authors
             foreach($authorList as $author) {
-
-                echo "<option value=". $author->ID . ">" . $author->name . "</option>";
+                echo "<option value=". $author->ID;
+                // If the media already has the author, mark it as selected
+                foreach($media->authors as $a) {
+                    if($author->name == $a) {
+                        echo " selected";
+                        break;
+                    }
+                }
+                
+                echo ">" . $author->name . "</option>";
             }
             ?>
         </select>
@@ -96,8 +102,17 @@ if(isset($_POST['m-name'])) {
         <label for="m-genre[]">Genre(s):</label>
         <select name="m-genre[]" multiple>
             <?php
+            // Dynamically create the option list for the genres
             foreach($genreList as $genre) {
-                echo "<option value=". $genre->ID . ">" . $genre->name . "</option>";
+                echo "<option value=". $genre->ID;
+                // If the media already has the genre, mark it as selected
+                foreach($media->genres as $g) {
+                    if($genre->name == $g) {
+                        echo " selected";
+                        break;
+                    }
+                }
+                echo ">" . $genre->name . "</option>";
             }
             ?>
         </select>
@@ -107,43 +122,44 @@ if(isset($_POST['m-name'])) {
 
         <label for="m-type">Type:</label>
         <select name="m-type" style="margin-top:3px;">
-            <option value="Book">Book</option>
-            <option value="Movie">Movie</option>
-            <option value="Audio Book">Audio Book</option>
-            <option value="Refrense Book">Reference Book</option>
+            <option value="Book" <?php if($media->type == "Book") {echo "selected";} ?>>Book</option>
+            <option value="Movie" <?php if($media->type == "Movie") {echo "selected";} ?>>Movie</option>
+            <option value="Audio Book" <?php if($media->type == "Audio Book") {echo "selected";} ?>>Audio Book</option>
+            <option value="Refrense Book" <?php if($media->type == "Refrense Book") {echo "selected";} ?>>Reference Book</option>
         </select>
 
         <!-- Age requirement -->
 
         <label for="m-age">Age requirement:</label>
         <select name="m-age" style="margin-top:3px;">
-            <option value=0>None</option>
-            <option value=3>3</option>
-            <option value=7>7</option>
-            <option value=9>9</option>
-            <option value=12>12</option>
-            <option value=16>16</option>
-            <option value=18>18+</option>
+            <?php 
+                $data = [[0,"None"],[3,"3"],[7,"7"],[9,"9"],[12,"12"],[16,"16"],[18,"18+"]];
+                foreach($data as $d) {
+                    echo "<option value=" . $d[0];
+                    if($media->ageRestriction == $d[0]) {echo " selected";}
+                    echo ">" . $d[1] . "</option>";
+                }
+            ?>
         </select>
         
         <!-- Length -->
         <label for="m-length">Length:</label>
-        <input type="number" name="m-length">
+        <input type="number" name="m-length" value="<?php echo $media->length ?>">
 
         <!-- Condition -->
         <label for="m-cond">Condition:</label>
-        <input type="number" name="m-cond">
+        <input type="number" name="m-cond" value="<?php echo $media->quality ?>">
 
         <!-- Price -->
         <label for="m-price">Price:</label>
-        <input type="number" name="m-price">
+        <input type="number" name="m-price" value="<?php echo $media->price ?>">
 
         <!-- ISBN -->
 
         <label for="m-isbn">ISBN:</label>
-        <input type="text" name="m-isbn">
+        <input type="text" name="m-isbn" value="<?php echo $media->ISBN ?>">
 
-        <input type="submit" value="Create">
+        <input type="submit" value="Save">
     </form>
     
 </body>

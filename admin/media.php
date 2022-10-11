@@ -3,35 +3,6 @@ require_once('../db.php');
 require_once('../php/getMedia.php');
 require_once('../php/getGenres.php');
 require_once('../php/getAuthors.php');
-
-function find_in_array($array, $itemID) {
-    for($i = 0 ; $i < sizeof($array) ; $i++) {
-        if($array[$i]->ID == $itemID) {
-            return $array[$i];
-        }
-    }
-}
-
-
-$sql1 = "SELECT * FROM mediacreator";
-$sql2 = "SELECT * FROM mediagenre";
-
-// Add the authors into the 'authors' arrays of the specific media.
-// There's probably a better way to do this with SQL. Too bad.
-foreach ($conn->query($sql1) as $row) {
-    array_push(
-        find_in_array($mediaList,$row['mID'])->authors,
-        find_in_array($authorList,$row['cID'])->name
-    );
-}
-
-// Does the same thing for genres
-foreach ($conn->query($sql2) as $row) {
-    array_push(
-        find_in_array($mediaList,$row['mID'])->genres,
-        find_in_array($genreList,$row['gID'])->name
-    );
-}
 ?>
 
 <!DOCTYPE html>
@@ -94,7 +65,7 @@ foreach ($conn->query($sql2) as $row) {
         echo "<td>" . $media->ISBN . "</td>";
 
         echo "<td style='border:none;'><div>";
-        echo "<a href=''><button>Edit</button></a>";
+        echo "<a href='edit-media.php?id=" . $media->ID . "'><button>Edit</button></a>";
         echo "<a href='../php/deleteMedia.php?id=" . $media->ID ."'><button>Remove</button></a>";
         echo "</div></td></tr>";
     }

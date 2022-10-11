@@ -36,6 +36,8 @@ if(isset($_POST['m-name'])) {
         $stmt->bind_param("ii", $g, $mediaID);
         $stmt->execute();
     }
+
+    header("Location: media.php");
 }
 
 ?>
