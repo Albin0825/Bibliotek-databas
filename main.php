@@ -52,24 +52,33 @@
         
     }else if(!empty($_POST["search"]) && !empty($_POST["sorting"])){
         $search = $_POST["search"];
-        print_r($_POST);
         
-        if($_POST["sorting"] = "A-Ö"){
+        if($_POST["sorting"] === "A-Ö"){
             $sql = "SELECT * FROM media WHERE media.title LIKE '%$search%' ORDER BY title ASC";
-            print_r($sql);
         }
-        if($_POST["sorting"] = "Ö-A"){
+        if($_POST["sorting"] === "Ö-A"){
             $sql = "SELECT * FROM media WHERE media.title LIKE '%$search%' ORDER BY title DESC";
-            print_r($sql);
         }
-        if($_POST["sorting"] = "Längd>"){
+        if($_POST["sorting"] === "Längd>"){
             $sql = "SELECT * FROM media WHERE media.title LIKE '%$search%' ORDER BY `media`.`length` ASC";
         }
-        if($_POST["sorting"] = "Längd<"){
+        if($_POST["sorting"] === "Längd<"){
             $sql = "SELECT * FROM media WHERE media.title LIKE '%$search%' ORDER BY `media`.`length` DESC";
         }
-    }else{
-        print_r($_POST);
+    }else if(!empty($_POST["sorting"])){
+        if($_POST["sorting"] === "A-Ö"){
+            $sql = "SELECT * FROM media ORDER BY title ASC";
+        }
+        if($_POST["sorting"] === "Ö-A"){
+            $sql = "SELECT * FROM media ORDER BY title DESC";
+        }
+        if($_POST["sorting"] === "Längd>"){
+            $sql = "SELECT * FROM media ORDER BY `media`.`length` ASC";
+        }
+        if($_POST["sorting"] === "Längd<"){
+            $sql = "SELECT * FROM media ORDER BY `media`.`length` DESC";
+        }
+    } else{
         $sql = "SELECT * FROM media ORDER BY `media`.`title` ASC";
     }
     $result = $conn->query($sql);
