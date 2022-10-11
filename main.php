@@ -276,21 +276,57 @@
                         ?>
                     </select>
                     <select name="sorting" id="cars">
-                        <option value="A-Ö">A - Ö</option>
-                        <option value="Ö-A">Ö - A</option>
-                        <option value="Längd>">Längd ></option>
-                        <option value="Längd<">Längd <</option>
+                    <?php 
+                        $sort = ["A-Ö","Ö-A","Längd<","Längd>"];
+                        foreach($sort as $s){
+                            if($s == $_POST["sorting"]){
+                                echo "<option selected value=".$s.">$s</option>";
+                            } else{
+                                echo "<option value=".$s.">$s</option>";
+                            }
+                        }
+                    ?>
                     </select>
                     
                     <div>
-                        Book
-                        <input type="checkbox" name="Book" checked></input>
-                        Audio Book
-                        <input type="checkbox" name="AudioBook" checked></input>
-                        Refrense Book
-                        <input type="checkbox" name="RefrenseBook" checked></input>
-                        Moive
-                        <input type="checkbox" name="Movie" checked></input>
+                    <?php 
+                        $med = ["Book","AudioBook","RefrenseBook","Movie"];
+                        $unsetMed = $med;
+                        $postMed = [];
+                        $postedMed = [];
+                        if(!empty($_POST["Book"])){
+                            array_push($postMed,"Book");
+                        }
+                        if(!empty($_POST["AudioBook"])){
+                            array_push($postMed,"AudioBook");
+                        }
+                        if(!empty($_POST["RefrenseBook"])){
+                            array_push($postMed,"RefrenseBook");
+                        }
+                        if(!empty($_POST["Movie"])){
+                            array_push($postMed,"Movie");
+                        }
+                        foreach($med as $m){
+                            foreach($postMed as $pm){
+                                if($m == $pm){
+                                    echo $m."<input type='checkbox' name='".$m."' checked></input>";
+                                    array_push($postedMed,$m);
+                                }
+                            }
+                        }
+                        foreach($med as $m){
+                            foreach($postedMed as $pm){
+                                if($m == $pm){
+                                    array_splice($unsetMed,array_search($m,$unsetMed),1);
+                                }
+                            }
+                        }
+                        foreach($unsetMed as $um){
+                            
+                            echo $um."<input type='checkbox' name='".$um."' ></input>";
+                        }
+                    ?>
+
                     </div>
                     <input type="submit" value="Search"></input>
                 </div>
