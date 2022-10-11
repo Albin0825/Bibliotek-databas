@@ -323,8 +323,11 @@
                             }
                         }
                         foreach($unsetMed as $um){
-                            
-                            echo $um."<input type='checkbox' name='".$um."' ></input>";
+                            if(count($unsetMed) == 4){
+                                echo $um."<input type='checkbox' name='".$um."'checked ></input>";
+                            } else{
+                                echo $um."<input type='checkbox' name='".$um."' ></input>";
+                            }
                         }
                     ?>
 
