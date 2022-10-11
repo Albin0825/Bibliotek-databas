@@ -378,7 +378,12 @@ $sql = "SELECT * FROM media WHERE media.title LIKE '%$search%' ORDER BY `media`.
                         <option value="">Genre</option>
                         <?php 
                         foreach($genre as $g){
-                            echo "<option value=".$g["name"].">$g[name]</option>";
+                            if($g == $_POST["genre"]){
+                                echo "<option value=".$g["ID"]." selected>$g[name]</option>";
+                            } else{
+                                echo "<option value=".$g["ID"].">$g[name]</option>";
+                            }
+                            
                         }
                         ?>
                     </select>
