@@ -375,7 +375,7 @@ $sql = "SELECT * FROM media WHERE media.title LIKE '%$search%' ORDER BY `media`.
                 <div class="filter">
                     <div class="img"><!-- sövde logo --></div>
                     <select name="genre" id="cars">
-                        <option value="none">Genre</option>
+                        <option value="">Genre</option>
                         <?php 
                         foreach($genre as $g){
                             echo "<option value=".$g["name"].">$g[name]</option>";
