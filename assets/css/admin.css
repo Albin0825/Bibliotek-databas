@@ -79,8 +79,7 @@ input {
     margin: 3px;
 }
 
-table, th, td {
-    border: 1px solid black;
+table {
     border-collapse:collapse;
 }
 
@@ -90,6 +89,7 @@ th {
 }
 
 td, th {
+    border: 1px solid black;
     padding:8px;
 }
 
@@ -130,4 +130,34 @@ td, th {
     margin-top:3px;
     font-size:12px;
     padding:2px;
+}
+
+#media-table {
+    margin-left:4%; 
+    width:92%; 
+    position:relative;
+    float:left;
+}
+
+td div {
+    position:relative;
+    display:flex;
+}
+
+td div button {
+    position:relative;
+    width:6vw;
+    margin-left:1vw;
+}
+
+button {
+    background-color:#ac0942;
+    color:white;
+    padding:8px 12px 8px 12px;
+    border:1px solid black;
+}
+
+button:hover {
+    cursor:pointer;
+    filter:brightness(110%);
 }

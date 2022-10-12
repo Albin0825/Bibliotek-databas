@@ -1,7 +1,7 @@
 <?php
 require_once('../db.php');
 
-$sql = "SELECT * FROM creator";
+$sql = "SELECT * FROM creator ORDER BY name ASC";
 
 $authorList = [];
 

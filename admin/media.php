@@ -3,37 +3,6 @@ require_once('../db.php');
 require_once('../php/getMedia.php');
 require_once('../php/getGenres.php');
 require_once('../php/getAuthors.php');
-
-function find_in_array($array, $itemID) {
-    for($i = 0 ; $i < sizeof($array) ; $i++) {
-        if($array[$i]->ID == $itemID) {
-            return $array[$i];
-        }
-    }
-}
-
-
-$sql1 = "SELECT * FROM mediacreator";
-$sql2 = "SELECT * FROM mediagenre";
-
-// Add the authors into the 'authors' arrays of the specific media.
-// There's probably a better way to do this with SQL. Too bad.
-foreach ($conn->query($sql1) as $row) {
-    array_push(
-        find_in_array($mediaList,$row['mID'])->authors,
-        find_in_array($authorList,$row['cID'])->name
-    );
-}
-
-
-
-// Does the same thing for genres
-foreach ($conn->query($sql2) as $row) {
-    array_push(
-        find_in_array($mediaList,$row['mID'])->genres,
-        find_in_array($genreList,$row['gID'])->name
-    );
-}
 ?>
 
 <!DOCTYPE html>
@@ -43,7 +12,7 @@ foreach ($conn->query($sql2) as $row) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin</title>
-    <link rel="stylesheet" href="../assets/css/styleA.css">
+    <link rel="stylesheet" href="../assets/css/admin.css">
 </head>
 <body>
 
@@ -54,13 +23,13 @@ foreach ($conn->query($sql2) as $row) {
     </div>
 
     <!-- Mediatabell -->
-    <table style="margin-left:4%; width:92%;">
-    <?php
+    <table id="media-table">
 
+    <?php
     // Table header
     echo "<tr>
     <th>ID</th><th>Title</th><th>Type</th><th>Author</th>
-    <th>Genre</th><th>Age requirement</th><th>Length</th>
+    <th>Genre</th><th>Age</th><th>Length</th>
     <th>Condition</th><th>Price</th><th>ISBN</th>
     </tr>";
 
@@ -94,10 +63,16 @@ foreach ($conn->query($sql2) as $row) {
         echo "<td style='text-align:center;'>" . $media->quality . "</td>";
         echo "<td style='text-align:center;'>" . $media->price . "</td>";
         echo "<td>" . $media->ISBN . "</td>";
-        echo "</tr>";
+
+        echo "<td style='border:none;'><div>";
+        echo "<a href='edit-media.php?id=" . $media->ID . "'><button>Edit</button></a>";
+        echo "<a href='../php/deleteMedia.php?id=" . $media->ID ."'><button>Remove</button></a>";
+        echo "</div></td></tr>";
     }
+
     ?>
-    </table>    
+    </table> 
+
     <a href = "new-media.php">
         <button style="margin-top:14px; margin-left:4%;">New</button>
     </a>
