@@ -147,17 +147,21 @@ form:not(.login form, .signup form, #search) {
     padding: 40px;
 }
 
-form img{
+form .conImg{
     width: 100%;
-    height: calc(100vw/6 - 40px);
+    height: auto;
 }
 
 .text {
+    display: inline-block;
     font-size: 20px;
+    float: right;
     margin-block: 5px;
 }
 
 .text .age-length {
+    display: block;
+    float: none;
     font-size: 16px;
 }
 
@@ -166,6 +170,7 @@ form img{
 }
 
 .condition-isbn {
+    display: block;
     font-size: 14px;
 }
 
@@ -190,8 +195,15 @@ input[type="submit"]:not(.login input, .signup input) {
     display: block !important;
 }
 .newConForm {
-    height: 100px;
-    
+    display: flex;
+
+    height: 175px;
+    width: calc((100vw / 6)*5);
+}
+.newConImg {
+    display: inline-block;
+    height: 100% !important;
+    width: auto !important;
 }
 
 /* ================================================== */

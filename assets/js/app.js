@@ -15,6 +15,12 @@ const conLenght = document.querySelectorAll('.con').length
 const conForm = document.getElementsByClassName("conForm");
 const conFormLenght = document.querySelectorAll('.conForm').length
 
+//==================================================
+// ConImg
+//==================================================
+const conImg = document.getElementsByClassName("conImg");
+const conImgLenght = document.querySelectorAll('.conImg').length
+
 
 
 //==================================================
@@ -26,5 +32,8 @@ function toggle() {
     }
     for (let i = 0; i < conFormLenght; i++) {
         conForm[i].classList.toggle("newConForm");
+    }
+    for (let i = 0; i < conImgLenght; i++) {
+        conImg[i].classList.toggle("newConImg");
     }
 }

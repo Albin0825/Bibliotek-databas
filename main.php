@@ -4,6 +4,7 @@
     $uID = $_SESSION["uID"];
     $filter = [];
 
+
     /*============================================================
         Get User
     ============================================================*/
@@ -36,21 +37,48 @@
         array_push($filter,"Refrense Book");
         array_push($filter,"Movie");
     }
-
-
-
     /*============================================================
         Search
     ============================================================*/
-    if (!empty($_POST["search"])){
+    
+    if (!empty($_POST["search"]) && empty($_POST["sorting"])){
+        
         $search = $_POST["search"];
         if(is_numeric($search)){
-            $sql = "SELECT * FROM media WHERE media.ISBN LIKE '$search' ORDER BY `media`.`title` ASC";
+            $sql = "SELECT * FROM media WHERE media.ISBN LIKE '$search' ORDER BY title ASC";
         }else{
-            $sql = "SELECT * FROM media WHERE media.title LIKE '%$search%' ORDER BY `media`.`title` ASC";
+            $sql = "SELECT * FROM media WHERE media.title LIKE '%$search%' ORDER BY title ASC";
         }
         
-    }else{
+    }else if(!empty($_POST["search"]) && !empty($_POST["sorting"])){
+        $search = $_POST["search"];
+        
+        if($_POST["sorting"] === "A-Ö"){
+            $sql = "SELECT * FROM media WHERE media.title LIKE '%$search%' ORDER BY title ASC";
+        }
+        if($_POST["sorting"] === "Ö-A"){
+            $sql = "SELECT * FROM media WHERE media.title LIKE '%$search%' ORDER BY title DESC";
+        }
+        if($_POST["sorting"] === "Längd>"){
+            $sql = "SELECT * FROM media WHERE media.title LIKE '%$search%' ORDER BY `media`.`length` ASC";
+        }
+        if($_POST["sorting"] === "Längd<"){
+            $sql = "SELECT * FROM media WHERE media.title LIKE '%$search%' ORDER BY `media`.`length` DESC";
+        }
+    }else if(!empty($_POST["sorting"])){
+        if($_POST["sorting"] === "A-Ö"){
+            $sql = "SELECT * FROM media ORDER BY title ASC";
+        }
+        if($_POST["sorting"] === "Ö-A"){
+            $sql = "SELECT * FROM media ORDER BY title DESC";
+        }
+        if($_POST["sorting"] === "Längd>"){
+            $sql = "SELECT * FROM media ORDER BY `media`.`length` ASC";
+        }
+        if($_POST["sorting"] === "Längd<"){
+            $sql = "SELECT * FROM media ORDER BY `media`.`length` DESC";
+        }
+    } else{
         $sql = "SELECT * FROM media ORDER BY `media`.`title` ASC";
     }
     $result = $conn->query($sql);
@@ -105,6 +133,18 @@
     /*============================================================
         Filter
     ============================================================*/
+    $sql = "SELECT * FROM genre";
+
+    $resultGenre = $conn->query($sql);
+
+    $genre = [];
+    if ($resultGenre->num_rows > 0) {
+        // output data of each row
+        while($row = $resultGenre->fetch_assoc()) {
+            array_push($genre,$row);
+        }
+    }
+
     if($_POST == NULL){
         array_push($filter,"Book");
         array_push($filter,"Audio Book");
@@ -227,6 +267,21 @@
                 </div>
                 <div class="filter">
                     <div class="img"><!-- sövde logo --></div>
+                    <select name="genre" id="cars">
+                        <option value="none">Genre</option>
+                        <?php 
+                        foreach($genre as $g){
+                            echo "<option value=".$g["name"].">$g[name]</option>";
+                        }
+                        ?>
+                    </select>
+                    <select name="sorting" id="cars">
+                        <option value="A-Ö">A - Ö</option>
+                        <option value="Ö-A">Ö - A</option>
+                        <option value="Längd>">Längd ></option>
+                        <option value="Längd<">Längd <</option>
+                    </select>
+                    
                     <div>
                         Book
                         <input type="checkbox" name="Book" checked></input>
@@ -255,8 +310,9 @@
                             if($row["type"] == "Book" || $row["type"] == "Refrense Book"){
                                 echo "
                                     <form class='conForm' method='POST'>
-                                        <img src='./assets/img/".$row['type'].".svg' alt=''>
-                                        <div class='text'>" . $row["title"] . "<br> 
+                                        <img class='conImg' src='./assets/img/".$row['type'].".svg' alt=''>
+                                        " . $row["title"] . "
+                                        <div class='text'> 
                                             <div class='text age-length'>" .
                                                 $row["ageRestriction"] . "+
                                                 <span class='length'>" . $row["length"] . "PP</span>
@@ -270,8 +326,9 @@
                             } else{
                                 echo "
                                     <form class='conForm' method='POST'>
-                                        <img src='./assets/img/".$row['type'].".svg' alt=''>
-                                        <div class='text'>" . $row["title"] . "<br> 
+                                        <img class='conImg' src='./assets/img/".$row['type'].".svg' alt=''>
+                                        " . $row["title"] . "
+                                        <div class='text'> 
                                             <div class='text age-length'>" .
                                                 $row["ageRestriction"] . "+
                                                 <span class='length'>" . $row["length"] . "Min</span>
@@ -289,8 +346,9 @@
                         if($row["type"] == "Book" || $row["type"] == "Refrense Book"){
                             echo "
                                 <form class='conForm' method='POST'>
-                                    <img src='./assets/img/".$row['type'].".svg' alt=''>
-                                    <div class='text'>" . $row["title"] . "<br> 
+                                    <img class='conImg' src='./assets/img/".$row['type'].".svg' alt=''>
+                                    " . $row["title"] . "
+                                    <div class='text'> 
                                         <div class='text age-length'>" .
                                             $row["ageRestriction"] . "+
                                             <span class='length'>" . $row["length"] . "PP</span>
@@ -304,8 +362,9 @@
                         } else{
                             echo "
                                 <form class='conForm' method='POST'>
-                                    <img src='./assets/img/".$row['type'].".svg' alt=''>
-                                    <div class='text'>" . $row["title"] . "<br> 
+                                    <img class='conImg' src='./assets/img/".$row['type'].".svg' alt=''>
+                                    " . $row["title"] . "
+                                    <div class='text'> 
                                         <div class='text age-length'>" .
                                             $row["ageRestriction"] . "+
                                             <span class='length'>" . $row["length"] . "Min</span>
